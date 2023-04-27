@@ -11,6 +11,7 @@
 			<div>
 				안녕하세요
 			</div>
+			<img src="/resource/images/google.png"/>
 		</div>
 	</section>
 <%@ include file="../common/foot.jsp" %>
