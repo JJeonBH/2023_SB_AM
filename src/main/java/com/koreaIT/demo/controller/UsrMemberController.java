@@ -23,6 +23,11 @@ public class UsrMemberController {
 		this.rq = rq;
 	}
 	
+	@RequestMapping("/usr/member/join")
+	public String join() {
+		return "usr/member/join";
+	}
+	
 	// 액션 메서드
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
@@ -175,4 +180,19 @@ public class UsrMemberController {
 		return Util.jsReplace("비밀번호가 수정되었습니다", "myPage");
 	}
 	
+	@RequestMapping("/usr/member/loginIdChk")
+	@ResponseBody
+	public ResultData<Member> loginIdChk(String loginId) {
+		if (Util.empty(loginId)) {
+			return ResultData.from("F-1", "로그인 아이디를 입력해주세요");
+		}
+		
+		Member member = memberService.getMemberByLoginId(loginId);
+		
+		if (member == null) {
+			return ResultData.from("F-2", "존재하지 않는 아이디입니다");
+		}
+		
+		return ResultData.from("S-1", "올바른 아이디입니다", "member", member);
+	}
 }

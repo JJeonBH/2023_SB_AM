@@ -3,6 +3,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="pageTitle" value="Login" />
 <%@ include file="../common/head.jsp" %>
+<script>
+	function loginIdChk(input) {
+		let loginIdChk = input.value;
+		$.get('loginIdChk', {
+			loginId : loginIdChk
+		}, function(data) {
+			$('#msg').html(data.msg);
+		}, 'json');
+	}
+</script>
 	<section class="mt-8 text-xl">
 		<div class="container mx-auto px-3">
 			<form action="doLogin" method="POST">
@@ -14,7 +24,10 @@
 						<tbody>
 							<tr>
 								<th>로그인 아이디</th>
-								<td><input class="input input-bordered w-full max-w-xs" type="text" name="loginId" placeholder="아이디를 입력해주세요"/></td>
+								<td>
+									<input class="input input-bordered w-full max-w-xs" type="text" name="loginId" placeholder="아이디를 입력해주세요" onchange="loginIdChk(this);"/>
+									<div id="msg" class="text-gray-400 text-sm mt-2"></div>
+								</td>
 							</tr>
 							<tr>
 								<th>로그인 비밀번호</th>
