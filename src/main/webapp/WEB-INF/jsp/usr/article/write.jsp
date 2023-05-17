@@ -5,7 +5,7 @@
 <%@ include file="../common/head.jsp" %>
 	<section class="mt-8 text-xl">
 		<div class="container mx-auto px-3">
-			<form action="doWrite" method="POST" onsubmit="getEditorContents(this);">
+			<form action="doWrite" method="POST">
 				<div class="table-box-type-1">
 					<table class="table table-zebra w-full">
 						<colgroup>
@@ -32,10 +32,7 @@
 							</tr>
 							<tr>
 								<th>내용</th>
-								<td>
-									<div class="text-left" id="editor"></div>
-									<input type="hidden" name="body">
-								</td>
+								<td><textarea class="textarea textarea-bordered w-full" name="body" placeholder="내용을 입력해주세요"></textarea></td>
 							</tr>
 							<tr>
 								<td colspan="2"><button class="btn-text-link btn btn-active">작성</button></td>
@@ -49,5 +46,4 @@
 			</div>
 		</div>
 	</section>
-<%@ include file="../common/editor.jsp" %>
 <%@ include file="../common/foot.jsp" %>

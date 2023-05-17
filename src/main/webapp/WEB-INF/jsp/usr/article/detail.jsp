@@ -81,7 +81,7 @@
 						</tr>
 						<tr>
 							<th>내용</th>
-							<td><div id="viewer">${article.getForPrintBody() }</div></td>
+							<td>${article.getForPrintBody() }</td>
 						</tr>
 					</tbody>
 				</table>
@@ -197,5 +197,5 @@
 			</c:if>
 		</div>
 	</section>
-<%@ include file="../common/viewer.jsp" %>
+	
 <%@ include file="../common/foot.jsp" %>

@@ -23,47 +23,41 @@ public class UsrMemberController {
 		this.rq = rq;
 	}
 	
-	@RequestMapping("/usr/member/join")
-	public String join() {
-		return "usr/member/join";
-	}
-	
+	// 액션 메서드
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
-	public String doJoin(String loginId, String loginPw, String loginPwChk, String name, String nickname, String cellphoneNum, String email) {
+	public ResultData<Member> doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+
+		if (rq.getLoginedMemberId() != 0) {
+			return ResultData.from("F-A", "로그아웃 후 이용해주세요");
+		}
 		
 		if (Util.empty(loginId)) {
-			return Util.jsHistoryBack("아이디를 입력해주세요");
+			return ResultData.from("F-1", "아이디를 입력해주세요");
 		}
 		if (Util.empty(loginPw)) {
-			return Util.jsHistoryBack("비밀번호를 입력해주세요");
-		}
-		if (Util.empty(loginPwChk)) {
-			return Util.jsHistoryBack("비밀번호 확인을 입력해주세요");
+			return ResultData.from("F-2", "비밀번호를 입력해주세요");
 		}
 		if (Util.empty(name)) {
-			return Util.jsHistoryBack("이름을 입력해주세요");
+			return ResultData.from("F-3", "이름을 입력해주세요");
 		}
 		if (Util.empty(nickname)) {
-			return Util.jsHistoryBack("닉네임을 입력해주세요");
+			return ResultData.from("F-4", "닉네임을 입력해주세요");
 		}
 		if (Util.empty(cellphoneNum)) {
-			return Util.jsHistoryBack("전화번호를 입력해주세요");
+			return ResultData.from("F-5", "전화번호를 입력해주세요");
 		}
 		if (Util.empty(email)) {
-			return Util.jsHistoryBack("이메일을 입력해주세요");
-		}
-		if (!loginPw.equals(loginPwChk)) {
-			return Util.jsHistoryBack("비밀번호를 확인해주세요");
+			return ResultData.from("F-6", "이메일을 입력해주세요");
 		}
 		
 		ResultData<Integer> doJoinRd = memberService.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
 		
 		if (doJoinRd.isFail()) {
-			return Util.jsHistoryBack(doJoinRd.getMsg());
+			return ResultData.from(doJoinRd.getResultCode(), doJoinRd.getMsg());
 		}
 		
-		return Util.jsReplace(doJoinRd.getMsg(), "/");
+		return ResultData.from(doJoinRd.getResultCode(), doJoinRd.getMsg(), "member", memberService.getMemberById((int) doJoinRd.getData1()));
 	}
 	
 	@RequestMapping("/usr/member/login")
@@ -74,6 +68,10 @@ public class UsrMemberController {
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
 	public String doLogin(String loginId, String loginPw) {
+		
+		if (rq.getLoginedMemberId() != 0) {
+			return Util.jsHistoryBack("로그아웃 후 이용해주세요");
+		}
 		
 		if (Util.empty(loginId)) {
 			return Util.jsHistoryBack("아이디를 입력해주세요");
@@ -177,41 +175,4 @@ public class UsrMemberController {
 		return Util.jsReplace("비밀번호가 수정되었습니다", "myPage");
 	}
 	
-	@RequestMapping("/usr/member/loginIdChk")
-	@ResponseBody
-	public ResultData<Member> loginIdChk(String loginId) {
-		
-		if (Util.empty(loginId)) {
-			return ResultData.from("F-1", "로그인 아이디를 입력해주세요");
-		}
-		
-		Member member = memberService.getMemberByLoginId(loginId);
-		
-		if (member == null) {
-			return ResultData.from("F-2", "존재하지 않는 아이디입니다");
-		}
-		
-		return ResultData.from("S-1", "올바른 아이디입니다", "member", member);
-	}
-	
-	@RequestMapping("/usr/member/loginIdDupChk")
-	@ResponseBody
-	public ResultData<Member> loginIdDupChk(String loginId) {
-		
-		if (Util.empty(loginId)) {
-			return ResultData.from("F-1", "필수 정보입니다");
-		}
-		
-		if (!loginId.matches("^[a-z0-9_-]{1}[a-z0-9_-]{4,19}$")) {
-			return ResultData.from("F-3", "5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다");
-		}
-		
-		Member member = memberService.getMemberByLoginId(loginId);
-		
-		if (member != null) {
-			return ResultData.from("F-3", "이미 사용중인 아이디입니다");
-		}
-		
-		return ResultData.from("S-1", "사용 가능한 아이디입니다");
-	}
 }
