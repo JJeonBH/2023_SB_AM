@@ -25,8 +25,8 @@
 							<tr>
 								<th>로그인 아이디</th>
 								<td>
-									<input class="input input-bordered w-full max-w-xs" type="text" name="loginId" placeholder="아이디를 입력해주세요" onchange="loginIdChk(this);"/>
-									<div id="msg" class="text-gray-400 text-sm mt-2"></div>
+									<input class="input input-bordered w-full max-w-xs" type="text" name="loginId" placeholder="아이디를 입력해주세요" onblur="loginIdChk(this);"/>
+									<div id="msg" class="text-red-400 text-sm mt-2"></div>
 								</td>
 							</tr>
 							<tr>
