@@ -97,7 +97,7 @@ INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
 loginId = 'admin',
-loginPw = 'admin',
+loginPw = SHA2('admin', 256),
 `authLevel` = 7,
 `name` = '관리자',
 nickname = '관리자',
@@ -109,7 +109,7 @@ INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
 loginId = 'test1',
-loginPw = 'test1',
+loginPw = SHA2('test1', 256),
 `name` = '유저1',
 nickname = '유저1',
 cellphoneNum = '010-1112-1112',
@@ -120,7 +120,7 @@ INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
 loginId = 'test2',
-loginPw = 'test2',
+loginPw = SHA2('test2', 256),
 `name` = '유저2',
 nickname = '유저2',
 cellphoneNum = '010-1113-1113',
@@ -240,3 +240,6 @@ from article;
 */
 
 SELECT COUNT(*) FROM article;
+
+UPDATE `member`
+SET loginPw = SHA2(loginPw, 256);
