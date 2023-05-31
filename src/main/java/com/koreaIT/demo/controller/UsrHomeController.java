@@ -20,5 +20,4 @@ public class UsrHomeController {
 	public String showPopUp() {
 		return "/usr/home/popUp";
 	}
-	
 }
