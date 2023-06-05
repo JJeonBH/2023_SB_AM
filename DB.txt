@@ -23,7 +23,7 @@ CREATE TABLE `member`(
 	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
 	updateDate DATETIME NOT NULL,
-	loginId VARCHAR(20) NOT NULL UNIQUE,
+	loginId VARCHAR(100) NOT NULL UNIQUE,
 	loginPw VARCHAR(100) NOT NULL,
 	`authLevel` SMALLINT UNSIGNED NOT NULL DEFAULT 3 COMMENT '권한 레벨 (일반 = 3, 관리자 = 7)',
 	`name` VARCHAR(20) NOT NULL,
@@ -256,3 +256,16 @@ set loginPw = sha2(loginPw, 256);
 update `member`
 set email = 'http-@naver.com'
 where id = 2
+
+INSERT INTO `member`(
+    regDate, updateDate, loginId, loginPw, `NAME`, nickname, cellphoneNum, email
+)
+SELECT NOW(),
+        NOW(),
+        UUID(),
+        SHA2('test', 256), 
+        CONCAT('test_',FORMAT(RAND() * 3, 4)), 
+        CONCAT('test_',FORMAT(RAND() * 3, 4)),
+        FLOOR(RAND() * 100000000),
+        CONCAT('test_',FORMAT(RAND() * 3, 4))
+    FROM `member`;
