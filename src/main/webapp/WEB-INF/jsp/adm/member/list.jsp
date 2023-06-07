@@ -74,7 +74,6 @@
 			
 			<script>
 				$('.checkbox-all-member-id').change(function() {
-					console.log("??");
 					const allCheck = $(this);
 					const allChecked = allCheck.prop('checked');
 					$('.checkbox-member-id').prop('checked', allChecked);
@@ -101,6 +100,7 @@
 			<script>
 				$('.btn-delete-selected-members').click(function() {
 					const values = $('.checkbox-member-id:checked').map((index, el) => el.value).toArray();
+					
 					if (values.length == 0) {
 						alert('선택한 회원이 없습니다');
 						return;
